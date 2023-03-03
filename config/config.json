@@ -1,0 +1,18 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "mapa-imagen-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/mapaImagen/MapaImagenWebPart.js",
+          "manifest": "./src/webparts/mapaImagen/MapaImagenWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "MapaImagenWebPartStrings": "lib/webparts/mapaImagen/loc/{locale}.js"
+  }
+}

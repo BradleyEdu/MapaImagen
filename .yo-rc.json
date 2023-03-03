@@ -1,0 +1,21 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "16.15.0",
+    "sdksVersions": {
+      "@microsoft/microsoft-graph-client": "3.0.2",
+      "@microsoft/teams-js": "2.4.1"
+    },
+    "version": "1.16.1",
+    "libraryName": "mapa-imagen",
+    "libraryId": "01b95b8f-9d22-4d48-8b46-78425cc42f81",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "MapaImagen",
+    "solutionShortDescription": "MapaImagen description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}

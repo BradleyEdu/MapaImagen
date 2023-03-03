@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "mapa-imagen-client-side-solution",
+    "id": "01b95b8f-9d22-4d48-8b46-78425cc42f81",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.16.1"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "MapaImagen description"
+      },
+      "longDescription": {
+        "default": "MapaImagen description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "mapa-imagen Feature",
+        "description": "The feature that activates elements of the mapa-imagen solution.",
+        "id": "83f2e4b3-6558-45fb-aeae-2f978be50ae3",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/mapa-imagen.sppkg"
+  }
+}
