@@ -2,6 +2,9 @@ import * as React from 'react';
 import styles from './MapaImagen.module.scss';
 import { IMapaImagenProps } from './IMapaImagenProps';
 import { escape } from '@microsoft/sp-lodash-subset';
+import { SPHttpClient } from '@microsoft/sp-http';
+// import { spfi } from "@pnp/sp";
+import "@pnp/sp/webs";
 
 export default class MapaImagen extends React.Component<IMapaImagenProps, {}> {
   public render(): React.ReactElement<IMapaImagenProps> {
@@ -37,7 +40,34 @@ export default class MapaImagen extends React.Component<IMapaImagenProps, {}> {
             <li><a href="https://aka.ms/m365pnp" target="_blank" rel="noreferrer">Microsoft 365 Developer Community</a></li>
           </ul>
         </div>
+
+        <button onClick={this.buscarImagen}>Dale click si te atreves</button>
       </section>
     );
   }
+
+    buscarImagen = async () => {
+    console.log('Hola');
+
+    const response = await  this.props.context.spHttpClient.get(
+      this.props.context.pageContext.web.absoluteUrl + `/_api/web/lists/getbytitle('ImagenFondo')/items`,
+      SPHttpClient.configurations.v1,
+      {
+        headers: {
+          'Accept': 'application/json;odata=nometadata',
+          'odata-version': ''
+        }
+      });
+    
+    if (!response.ok) {
+      const responseText =  response.text();
+      throw new Error(responseText);
+    }
+  
+    const responseJson = await  response.json();
+    
+    console.log(responseJson.value);
+    return responseJson.value;
+  }
+
 }

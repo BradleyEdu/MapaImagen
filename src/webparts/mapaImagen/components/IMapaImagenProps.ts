@@ -4,4 +4,5 @@ export interface IMapaImagenProps {
   environmentMessage: string;
   hasTeamsContext: boolean;
   userDisplayName: string;
+  context: any;
 }
