@@ -5,6 +5,7 @@ import { IMapaImagenProps } from './IMapaImagenProps';
 import { SPHttpClient } from '@microsoft/sp-http';
 // import { spfi } from "@pnp/sp";
 import "@pnp/sp/webs";
+import Mapa from './Mapa';
 
 export interface IMapaImagenState {
   url: string;
@@ -54,9 +55,8 @@ export default class MapaImagen extends React.Component<IMapaImagenProps, IMapaI
 
     return (
       <div>
-        <h1>Ejemplo</h1>
-        <img src={this.state.url} alt="Imagen de Fondo" />
-        <button onClick={this.buscarImagen}>Picale</button>
+        <h1>Mapeo de Imagen</h1>
+        <Mapa imagen={this.state.url} context={this.props.context}/>
       </div>
     );
   }
