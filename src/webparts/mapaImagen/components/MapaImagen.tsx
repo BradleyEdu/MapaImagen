@@ -6,24 +6,30 @@ import { SPHttpClient } from '@microsoft/sp-http';
 // import { spfi } from "@pnp/sp";
 import "@pnp/sp/webs";
 
-export default class MapaImagen extends React.Component<IMapaImagenProps, {}> {
+export interface IMapaImagenState {
+  url: string;
+}
 
-  url:string;
+export default class MapaImagen extends React.Component<IMapaImagenProps, IMapaImagenState> {
 
+  //url:string = '';
+  constructor(props:IMapaImagenProps){
+    super(props);
+    this.state = {
+      url:""
+    }
+  }
   componentDidMount(): void {
     this.buscarImagen();
   }
 
   buscarImagen = async () => {
+    const listName = 'ImagenFondo';
+    const apiUrl = `/_api/web/lists/getbytitle('${listName}')/items`;
+
     const response = await  this.props.context.spHttpClient.get(
-      this.props.context.pageContext.web.absoluteUrl + `/_api/web/lists/getbytitle('ImagenFondo')/items`,
-      SPHttpClient.configurations.v1,
-      {
-        headers: {
-          'Accept': 'application/json;odata=nometadata',
-          'odata-version': ''
-        }
-      });
+      this.props.context.pageContext.web.absoluteUrl + apiUrl,
+      SPHttpClient.configurations.v1);
     
     if (!response.ok) {
       const responseText =  response.text();
@@ -31,17 +37,25 @@ export default class MapaImagen extends React.Component<IMapaImagenProps, {}> {
     }
   
     const responseJson = await  response.json();
-    
-    console.log(JSON.parse(responseJson.value[0].imagen));
-    this.url =  responseJson.value[0].imagen;
+
+    const imagen = JSON.parse(responseJson.value[0].imagen);
+    const serverUrl = imagen.serverUrl;
+    const serverRelativeUrl = imagen.serverRelativeUrl;
+    const urlImagen = serverUrl + serverRelativeUrl;
+   // console.log(imagen);
+    //console.log('ruta: '+serverUrl+serverRelativeUrl);
+    //this.url = serverUrl+serverRelativeUrl;
+    this.setState({ url: urlImagen  });
+    console.log(this.state.url)
+    //this.render();
   }
 
   public render(): React.ReactElement<IMapaImagenProps> {
 
     return (
       <div>
-        <h1>Hola Mundo!!</h1>
-        <img src={this.url} alt="Imagen de Fondo" />
+        <h1>Ejemplo</h1>
+        <img src={this.state.url} alt="Imagen de Fondo" />
         <button onClick={this.buscarImagen}>Picale</button>
       </div>
     );
