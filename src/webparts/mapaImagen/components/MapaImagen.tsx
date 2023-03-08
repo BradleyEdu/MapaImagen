@@ -43,12 +43,8 @@ export default class MapaImagen extends React.Component<IMapaImagenProps, IMapaI
     const serverUrl = imagen.serverUrl;
     const serverRelativeUrl = imagen.serverRelativeUrl;
     const urlImagen = serverUrl + serverRelativeUrl;
-   // console.log(imagen);
-    //console.log('ruta: '+serverUrl+serverRelativeUrl);
-    //this.url = serverUrl+serverRelativeUrl;
     this.setState({ url: urlImagen  });
-    console.log(this.state.url)
-    //this.render();
+    //console.log(this.state.url)
   }
 
   public render(): React.ReactElement<IMapaImagenProps> {
