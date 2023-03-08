@@ -32,3 +32,7 @@ obj
 
 # Styles Generated Code
 *.scss.ts
+
+#JSON hechos del scaffolding
+package-lock.json
+package.json
