@@ -1,9 +1,10 @@
 import { ImageMap,Area } from '@qiuz/react-image-map';
 import * as React from 'react';
-import buscarInfo from './buscarInfo';
+//import PopUp from './PopUp';
 
-function Mapa(props: { imagen: string, context: any }){
-    const img = props.imagen;
+function Mapa(props: { imagen: string, context: any, info:any }){
+  const img = props.imagen;
+  let informacion = {};
 
 const mapArea: Area[] = [
   {
@@ -19,8 +20,7 @@ const mapArea: Area[] = [
 const onMapClick = (area:any, index:number) => {
 	const tip = `click map${index + 1}`;
 	console.log(tip, area);
-	alert(tip);
-    buscarInfo(index, props.context);
+  informacion = props.info();
 }
 
 <ImageMap
@@ -30,15 +30,14 @@ const onMapClick = (area:any, index:number) => {
 	onMapClick={onMapClick}
 />
 
-// in hooks
 const ImageMapComponent = React.useMemo(() => <ImageMap className="usage-map" src={img} map={mapArea} onMapClick={onMapClick} />, [mapArea, img]);
 
 return (
 	<div>
-
-	{ImageMapComponent}
-
+    <div>{ImageMapComponent}</div>
+    {/* <PopUp info={informacion}/> */}
 	</div>
+
 )
 }
 

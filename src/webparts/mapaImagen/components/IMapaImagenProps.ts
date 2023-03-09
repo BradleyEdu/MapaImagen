@@ -1,8 +1,6 @@
+import { IServicioDatos } from "../../../general/data/interfaces/IServicioDatos";
+
 export interface IMapaImagenProps {
-  description: string;
-  isDarkTheme: boolean;
-  environmentMessage: string;
-  hasTeamsContext: boolean;
-  userDisplayName: string;
   context: any;
+  servicioDatos: IServicioDatos;
 }
