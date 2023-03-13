@@ -1,19 +1,21 @@
 import { Casilla } from "../entities";
 import { IServicioDatos } from "../interfaces/IServicioDatos";
 import { SPHttpClient } from '@microsoft/sp-http';
+import { Area } from '@qiuz/react-image-map';
+import { WebPartContext } from "@microsoft/sp-webpart-base";
+import { Coordenadas } from "../entities";
 
 
 export class ServicioDatos implements IServicioDatos {
-  context: any;
+  context: WebPartContext;
 
-  constructor(_context: any) {
+  constructor(_context: WebPartContext) {
     this.context = _context;
   }
 
-  public async buscarInfo(index: number, context: any): Promise<Casilla> {
+  public async buscarInfo(index?: number): Promise<Casilla[]> {
     const listName = "InformacionCasillas";
-    const apiUrl = `/_api/web/lists/getbytitle('${listName}')/items(1)?
-    $select=ID,Title,Descripcion,Manda,MainRoles,Tools,Process`;
+    const apiUrl = `/_api/web/lists/getbytitle('${listName}')/items(${index})?$select=ID,Title,Descripcion,Manda,MainRoles,Tools,Process`;
 
     const response = await this.context.spHttpClient.get(
       this.context.pageContext.web.absoluteUrl + apiUrl,
@@ -21,14 +23,13 @@ export class ServicioDatos implements IServicioDatos {
     );
 
     if (!response.ok) {
-      const responseText = response.text();
+      const responseText = await response.text();
       throw new Error(responseText);
     }
 
-    const responseJson: Casilla = await response.json();
-
-    console.log(responseJson);
-    return responseJson as Casilla;
+    const responseJson:Area = await response.json();
+    const casillas: Casilla[] = responseJson.value;
+    return casillas;
   }
 
   public async buscarImagen(): Promise<string>{
@@ -40,7 +41,7 @@ export class ServicioDatos implements IServicioDatos {
       SPHttpClient.configurations.v1);
     
     if (!response.ok) {
-      const responseText =  response.text();
+      const responseText = await response.text();
       throw new Error(responseText);
     }
   
@@ -51,5 +52,39 @@ export class ServicioDatos implements IServicioDatos {
     const serverRelativeUrl = imagen.serverRelativeUrl;
     const urlImagen = serverUrl + serverRelativeUrl;
     return urlImagen;
+  }
+
+  public async obtenerCoordenadas(): Promise<Area[]>{
+
+    const listName = "InformacionCasillas";
+    const apiUrl = `/_api/web/lists/getbytitle('${listName}')/items?$select=ID,Left,Top,Height,Width`;
+
+    const response = await this.context.spHttpClient.get(
+      this.context.pageContext.web.absoluteUrl + apiUrl,
+      SPHttpClient.configurations.v1
+    );
+
+    if (!response.ok) {
+      const responseText = await response.text();
+      throw new Error(responseText);
+    }
+
+    const responseJson = await response.json();
+    const casillas: Coordenadas[] = responseJson.value;
+
+    const Area: Area[] = casillas.map( (casilla: Coordenadas) => {
+      const area: Area = {
+        left: casilla.Left,
+        top: casilla.Top,
+        height: casilla.Height,
+        width: casilla.Width,
+        style:{ background: 'rgba(255, 0, 0, 0.5)' },
+        id: casilla.ID
+      };
+
+      return area;
+    });
+
+    return Area;
   }
 }

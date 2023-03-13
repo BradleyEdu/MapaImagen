@@ -1,15 +1,15 @@
 export class Coordenadas {
-    public Id: number;
-    public left: string;
-    public top: string;
-    public height: string;
-    public width: string;
+    public ID: number;
+    public Left: string;
+    public Top: string;
+    public Height: string;
+    public Width: string;
     
     constructor() {
-        this.Id = 0;
-        this.left = "";
-        this.top = "";
-        this.height = "";
-        this.width = "";
+        this.ID = 0;
+        this.Left = "";
+        this.Top = "";
+        this.Height = "";
+        this.Width = "";
     }
 }

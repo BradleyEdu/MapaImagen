@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
-import { Version } from '@microsoft/sp-core-library';
 import {
   IPropertyPaneConfiguration,
   PropertyPaneTextField
@@ -11,6 +10,7 @@ import MapaImagen from './components/MapaImagen';
 import { IMapaImagenProps } from './components/IMapaImagenProps';
 import { IServicioDatos } from '../../general/data/interfaces/IServicioDatos';
 import { ServicioDatos } from '../../general/data/services/ServicioDatos';
+
 
 export interface IMapaImagenWebPartProps {
   description: string;
@@ -31,7 +31,6 @@ export default class MapaImagenWebPart extends BaseClientSideWebPart<IMapaImagen
     const element: React.ReactElement<IMapaImagenProps> = React.createElement(
       MapaImagen,
       {
-        context: this.context,
         servicioDatos: this.servicioDatos
       }
     );
@@ -43,9 +42,6 @@ export default class MapaImagenWebPart extends BaseClientSideWebPart<IMapaImagen
     ReactDom.unmountComponentAtNode(this.domElement);
   }
 
-  protected get dataVersion(): Version {
-    return Version.parse('1.0');
-  }
 
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
     return {
