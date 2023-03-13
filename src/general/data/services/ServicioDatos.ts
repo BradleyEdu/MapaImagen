@@ -13,9 +13,10 @@ export class ServicioDatos implements IServicioDatos {
     this.context = _context;
   }
 
-  public async buscarInfo(index?: number): Promise<Casilla[]> {
+  public async buscarInfo(): Promise<Casilla[]> {
     const listName = "InformacionCasillas";
-    const apiUrl = `/_api/web/lists/getbytitle('${listName}')/items(${index})?$select=ID,Title,Descripcion,Manda,MainRoles,Tools,Process`;
+    const apiUrl = `/_api/web/lists/getbytitle('${listName}')/items?`+
+    `$select=ID,Title,Descripcion,Manda,MainRoles,Tools,Process`;
 
     const response = await this.context.spHttpClient.get(
       this.context.pageContext.web.absoluteUrl + apiUrl,
@@ -27,7 +28,7 @@ export class ServicioDatos implements IServicioDatos {
       throw new Error(responseText);
     }
 
-    const responseJson:Area = await response.json();
+    const responseJson = await response.json();
     const casillas: Casilla[] = responseJson.value;
     return casillas;
   }
@@ -86,5 +87,19 @@ export class ServicioDatos implements IServicioDatos {
     });
 
     return Area;
+  }
+
+  public obtenerInfoCasilla(casillas: Casilla[], id: number): Casilla{
+    
+    for (let i = 0; i < casillas.length; i++) {
+      const element = casillas[i];
+
+      if (element.Id === id) {
+        return element;
+      }
+      
+    }
+
+    return;
   }
 }

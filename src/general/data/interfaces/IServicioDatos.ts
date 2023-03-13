@@ -5,6 +5,9 @@ export interface IServicioDatos{
     //Obtiene la imagen de fondo
     buscarImagen(): Promise<string>;
     //Obtiene la informacion de la casilla
-    buscarInfo(index: number): Promise<Casilla[]>;
+    buscarInfo(): Promise<Casilla[]>;
     //Obtener coordenadas de las casillas
-    obtenerCoordenadas():Promise<Area[]>}
+    obtenerCoordenadas():Promise<Area[]>;
+    //Obtener informacion de la casilla clickeada
+    obtenerInfoCasilla(casillas: Casilla[], index: number): Casilla;
+}
