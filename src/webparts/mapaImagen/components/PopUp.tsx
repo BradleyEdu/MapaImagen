@@ -1,8 +1,8 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import { IPopUpProps } from './IPopUpProps';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -16,38 +16,44 @@ const style = {
   p: 4,
 };
 
-function PopUp(props: { info: any}) {
-  const {info} = props;
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+class PopUp extends React.Component<IPopUpProps> {
 
-  const {Title} = info;
+  handleClose = () => {
+    const {cerrarModal} = this.props;
+    cerrarModal();
+  };
 
-  return (
-    <div>
-      <Button onClick={handleOpen}>Open modal</Button>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
+  render() {
+    const {open} = this.props;
+
+    //Aqui le metes las demas propiedades para que las vayas pintando
+    const {Title, Descripcion} = this.props.informacion;
+
+    return (
+      <div>
+        <Modal
+          open={open}
+          onClose={this.handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
             {Title}
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
-          <Typography id="modal-modal-footer">
-            Quiubo 
-          </Typography>
-          <p>Eitale soy un parrafo</p>
-        </Box>
-      </Modal>
-    </div>
-  );
+            </Typography>
+
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            {Descripcion}
+            </Typography>
+
+            <Typography id="modal-modal-footer">
+              Quiubo 
+            </Typography>
+          </Box>
+        </Modal>
+      </div>
+    );
+  }
 }
 
 export default PopUp;
