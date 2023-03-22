@@ -14,24 +14,16 @@ export interface IMapaImagenState {
   informacion: Casilla;
 }
 
-const ejemplo: Casilla = {
-  Id: 1,
-  Title: "Titulo prueba",
-  Descripcion: "Lorem Ipsum is simply dummy text of the printing and typesetting industry"+
-  "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley"+
-  "of type and scrato electronic typesetting, remaining essentially unchanged. Itsum passages",
-  Manda: [],
-  MainRoles: [],
-  Tools: {Description: "Go tools", Url: "www.google.com"},
-  Process: {Description: "Go Process", Url: "www.google.com"}
-}
+
+const ejemplo: Casilla = new Casilla();
+console.log(ejemplo);
 
 export default class MapaImagen extends React.Component<IMapaImagenProps, IMapaImagenState> {
 
-  constructor(props:IMapaImagenProps){
+  constructor(props: IMapaImagenProps) {
     super(props);
     this.state = {
-      url:"",
+      url: "",
       mapa: [],
       casillas: [],
       open: false,
@@ -39,22 +31,30 @@ export default class MapaImagen extends React.Component<IMapaImagenProps, IMapaI
     }
   }
 
-  async componentDidMount(): Promise<void> {
-    const urlImagen = await this.props.servicioDatos.buscarImagen();
-    this.setState({ url: urlImagen });
-    const mapaIma = await this.props.servicioDatos.obtenerCoordenadas();
-    this.setState({ mapa: mapaIma });
-    
-    const casillero = await this.props.servicioDatos.buscarInfo();
-    this.setState({ casillas: casillero});
+  async componentDidMount() {
+    try {
+      const [urlImagen, mapaIma, casillero] = await Promise.all([
+        this.props.servicioDatos.buscarImagen(),
+        this.props.servicioDatos.obtenerCoordenadas(),
+        this.props.servicioDatos.buscarInfo()
+      ]);
+      this.setState({
+        url: urlImagen,
+        mapa: mapaIma,
+        casillas: casillero
+      });
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   public render(): React.ReactElement<IMapaImagenProps> {
+
     return (
       <div>
         <h1>Mapeo de Imagen</h1>
-        <Mapa imagen={this.state.url} mapArea={this.state.mapa} buscarInfo={this.handlerClick}/>
-        <PopUp informacion={this.state.informacion} open={this.state.open} cerrarModal={this.cerrarModal}/>
+        <Mapa imagen={this.state.url} mapArea={this.state.mapa} buscarInfo={this.handlerClick} />
+        <PopUp informacion={this.state.informacion} open={this.state.open} cerrarModal={this.cerrarModal} />
       </div>
     );
   }
@@ -65,7 +65,7 @@ export default class MapaImagen extends React.Component<IMapaImagenProps, IMapaI
   }
 
   public mostrarModal = (info: Casilla) => {
-    this.setState({open: true, informacion: info});
+    this.setState({ open: true, informacion: info });
   }
 
   public cerrarModal = () => {

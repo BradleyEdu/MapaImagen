@@ -4,8 +4,11 @@ export class Casilla {
     public Descripcion: string;
     public Manda: string[];
     public MainRoles: string[];
-    public Tools: {Description: string, Url: string};
-    public Process: {Description: string, Url: string};
+    //public Tools: {Description: string, Url: string};
+    //public Process: {Description: string, Url: string};
+    public Tools: string;
+    public Process: string;
+
 
     constructor() {
         this.Id = 0;
@@ -13,7 +16,7 @@ export class Casilla {
         this.Descripcion = "";
         this.Manda = [];
         this.MainRoles = [];
-        this.Tools = {Description: '',Url: ''};
-        this.Process = {Description: '',Url: ''};
+        this.Tools= '[{"nombre": "", "link": ""}]' ,
+        this.Process= '[{"nombre": "", "link": ""}]'
     }
 }
